@@ -2,7 +2,8 @@
 {% set actor_name = decnpc(npc.UUID).name %}
 {% set being_vibrated = arcs_devious_being_vibrated(npc.UUID).being_vibrated %}
 
-
+{% if triggeringEvent and triggeringEvent.type == "direct_narration" %}
+{% else %}
 {% if worn_has_keyword(npc.UUID, "zad_DeviousGag") %}
 - {{ actor_name }} is gagged. Speech is blocked. Convert words to grunts and mumbling of similar length.
 {% endif %}
@@ -18,5 +19,6 @@
 - A low humming noise is emitting from {{ actor_name }} as they squirm uncomfortably from unseen stimulation.
 {% endif %}
 
+{% endif %}
 {% endif %}
 {% endif %}
