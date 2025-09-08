@@ -18,6 +18,13 @@ bool function DeviousEligibilityChecks(Actor akOriginator, arcs_ConfigSettings c
         return false
     endif
 
+    ;TODO - add DHLP check
+    arcs_Data gdata = arcs_Data.GetArcsData()
+    if gdata.DhlpSuspend != gdata.DHLP_STATE_OFF
+        arcs_Utility.WriteInfo("ActorIsEligible - dhlp active")
+        return false
+    endif
+
     return true
 
 endfunction

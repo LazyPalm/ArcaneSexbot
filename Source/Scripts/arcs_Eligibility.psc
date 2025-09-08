@@ -23,6 +23,11 @@ bool function ActorIsEligible(Actor akActor, arcs_ConfigSettings config) global
     ;debug.MessageBox("ActorIsEligible: " + valid)
 
     ;TODO - add DHLP check
+    arcs_Data gdata = arcs_Data.GetArcsData()
+    if gdata.DhlpSuspend != gdata.DHLP_STATE_OFF
+        arcs_Utility.WriteInfo("ActorIsEligible - dhlp active")
+        valid = false
+    endif
 
     return valid
 endfunction

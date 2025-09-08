@@ -1,5 +1,7 @@
 Scriptname arcs_Mcm extends SKI_ConfigBase
 
+string version = ""
+
 bool skyrimNetFound
 
 int toggleClearDhlp

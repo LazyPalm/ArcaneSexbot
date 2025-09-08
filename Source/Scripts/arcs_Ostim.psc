@@ -1,5 +1,7 @@
 Scriptname arcs_Ostim extends Quest  
 
+string jsonFile = "arcbot_ostim_descriptions.json"
+
 function GameLoaded()
 
     RegisterForModEvent("ostim_prestart", "OStimPreStart")
@@ -92,6 +94,73 @@ EndEvent
 Event OStimSceneChanged(string eventName, string strArg, float numArg, Form sender)
     ;debug.MessageBox("scene end...")
     arcs_Utility.WriteInfo("OStimSceneChanged eventName: " + eventName + " strArg: " + strArg + " numArg: " + numArg + " sender: " + sender, 2)
+
+    string sceneId = OThread.GetScene(numArg as int)
+    string[] actionTypes = OMetadata.GetActionTypes(sceneId)
+    string[] sceneTags = OMetadata.GetSceneTags(sceneId)
+    Actor[] actors = OThread.GetActors(numArg as int)
+
+    ;debug.MessageBox("actionTypes: " + actionTypes)
+    ;debug.MessageBox("sceneTags: " + sceneTags)
+
+    string changeBuffer = ""
+    string actionBuffer = ""
+    string sceneTagBuffer = ""
+
+    int idx = 0
+
+    idx = 0
+    while idx < actors.Length
+        Actor act = actors[idx]
+
+        if changeBuffer == ""
+            changeBuffer = act.GetDisplayName()
+        else
+            changeBuffer += ", " + act.GetDisplayName()
+        endif
+
+        idx += 1
+    endwhile
+
+    idx = 0
+    while idx < actionTypes.Length
+        string actionType = actionTypes[idx]
+        JsonUtil.StringListAdd(jsonFile, "action_types", actionType, false)
+        if actionBuffer == ""
+            actionBuffer = actionType
+        else
+            actionBuffer += ", " + actionType
+        endif
+        idx += 1
+    endwhile
+
+    idx = 0
+    while idx < sceneTags.Length
+        string sceneTag = sceneTags[idx]
+        JsonUtil.StringListAdd(jsonFile, "scene_tags", sceneTag, false)
+        if sceneTagBuffer == ""
+            sceneTagBuffer = sceneTag
+        else
+            sceneTagBuffer += ", " + sceneTag
+        endif
+        idx += 1
+    endwhile
+
+    if actors.Length == 1
+        string sexDesc = "his"
+        if actors[0].GetActorBase().GetSex() == 1
+            sexDesc = "her"
+        endif        
+        changeBuffer += " is changing " + sexDesc + " " + sceneTagBuffer + " self-love scene. This can be described with the words: " + actionBuffer
+    else
+        changeBuffer += " are changing their " + sceneTagBuffer + " intimate scene. This can be described with the words: " + actionBuffer
+    endif
+
+
+    ;debug.MessageBox(changeBuffer)
+
+
+
 EndEvent
 
 Event OStimOrgasm(String EventName, String sceneId, Float index, Form Sender)
