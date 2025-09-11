@@ -57,7 +57,15 @@ endfunction
 
 ; Event handlers for Devious Devices mod events
 Event OnOrgasm(string eventName, string actorName, float numArg, Form sender)
-    string messageStr = actorName + " cries out in ecstasy as their body shudders with an intense climax, overwhelmed by waves of pleasure from their intimate devices"
+
+    Actor akActor = Game.GetPlayer()
+    bool isRealFemale = akActor.GetLeveledActorBase().GetSex() == 1
+    string messageStr
+    if isRealFemale
+        messageStr = actorName + " cries out in ecstasy as her body shudders with an intense climax, overwhelmed by waves of pleasure from her intimate devices"
+    else
+        messageStr = actorName + " cries out in ecstasy as his body shudders with an intense climax, overwhelmed by waves of pleasure from his intimate devices"    
+    endif
     
     ; Register short-lived event for immediate context awareness
     SkyrimNetApi.RegisterShortLivedEvent("orgasm_" + actorName, "devious_orgasm", "", messageStr, 60000, Game.GetPlayer(), None)
@@ -69,8 +77,16 @@ Event OnOrgasm(string eventName, string actorName, float numArg, Form sender)
 EndEvent
 
 Event OnEdged(string eventName, string actorName, float numArg, Form sender)
-    string messageStr = actorName + " gasps and whimpers in desperate frustration as they're brought right to the brink of climax, only to have the stimulation cruelly stop just before release, leaving them trembling with unfulfilled need"
-    
+
+    Actor akActor = Game.GetPlayer()
+    bool isRealFemale = akActor.GetLeveledActorBase().GetSex() == 1
+    string messageStr
+    if isRealFemale
+        messageStr = actorName + " gasps and whimpers in desperate frustration as she's brought right to the brink of climax, only to have the stimulation cruelly stop just before release, leaving her trembling with unfulfilled need"
+    else
+        messageStr = actorName + " gasps and whimpers in desperate frustration as he's brought right to the brink of climax, only to have the stimulation cruelly stop just before release, leaving him trembling with unfulfilled need"
+    endif
+
     ; Register short-lived event for immediate context awareness
     SkyrimNetApi.RegisterShortLivedEvent("edged_" + actorName, "devious_edged", "", messageStr, 60000, Game.GetPlayer(), None)
     
@@ -82,7 +98,14 @@ EndEvent
 
 Event OnVibrateStart(string eventName, string actorName, float vibStrength, Form sender)
     string strength = GetVibStrength(vibStrength)
-    string messageStr = actorName + "'s intimate devices have started vibrating " + strength + ", sending waves of pleasure through their body as the sexual stimulation begins"
+    Actor akActor = Game.GetPlayer()
+    bool isRealFemale = akActor.GetLeveledActorBase().GetSex() == 1
+    string messageStr
+    if isRealFemale
+        messageStr = actorName + "'s intimate devices have started vibrating " + strength + ", sending waves of pleasure through her body as the sexual stimulation begins"
+    else
+        messageStr = actorName + "'s intimate devices have started vibrating " + strength + ", sending waves of pleasure through his body as the sexual stimulation begins"
+    endif
     
     ; Register short-lived event for immediate context awareness - longer TTL since vibration continues
     SkyrimNetApi.RegisterShortLivedEvent("vibrate_" + actorName, "devious_vibrate_start", "", messageStr, 60000, Game.GetPlayer(), None)
@@ -95,7 +118,14 @@ EndEvent
 
 Event OnVibrateStop(string eventName, string actorName, float vibStrength, Form sender)
     string strength = GetVibStrength(vibStrength)
-    string messageStr = actorName + "'s intimate devices have stopped vibrating, leaving them breathless and aching as the intense sexual stimulation suddenly ends"
+    Actor akActor = Game.GetPlayer()
+    bool isRealFemale = akActor.GetLeveledActorBase().GetSex() == 1
+    string messageStr
+    if isRealFemale
+        messageStr = actorName + "'s intimate devices have stopped vibrating, leaving her breathless and aching as the intense sexual stimulation suddenly ends"
+    else
+        messageStr = actorName + "'s intimate devices have stopped vibrating, leaving him breathless and aching as the intense sexual stimulation suddenly ends"
+    endif
     
     ; Register short-lived event for immediate context awareness
     SkyrimNetApi.RegisterShortLivedEvent("vibrate_" + actorName, "devious_vibrate_stop", "", messageStr, 60000, Game.GetPlayer(), None)
